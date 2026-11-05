@@ -36,10 +36,10 @@ with open(latest_file, "r", encoding="utf-8") as f:
 
 # 组装邮件
 message = MIMEText(content, "plain", "utf-8")
-message["From"] = Header(SENDER_EMAIL, "utf-8")
-message["To"] = Header(RECEIVER_EMAIL, "utf-8")
-message["Subject"] = Header(f"Horizon 每日 AI 日报 - {os.path.basename(latest_file)}", "utf-8")
-
+# 使用纯英文昵称加邮箱，绝对不会触发 ASCII 编码错误
+message["From"] = f"Horizon Digest <{SENDER_EMAIL}>"
+message["To"] = RECEIVER_EMAIL
+message["Subject"] = f"Horizon Daily AI Digest - {os.path.basename(latest_file)}"
 # 连接服务器并发送
 try:
     smtp_obj = smtplib.SMTP_SSL(MAIL_HOST, MAIL_PORT)
