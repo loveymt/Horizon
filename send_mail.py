@@ -21,7 +21,8 @@ if not MAIL_PASS:
     exit(1)
 
 # 自动查找 docs/_posts/ 目录下最新的一篇日报文件
-list_of_files = glob.glob("docs/_posts/*.md")
+# 同时在根目录的 _posts 和 docs/_posts 下寻找 md 文件
+list_of_files = glob.glob("_posts/*.md") + glob.glob("docs/_posts/*.md")
 if not list_of_files:
     print("错误: 没有找到任何日报文件！")
     exit(1)
