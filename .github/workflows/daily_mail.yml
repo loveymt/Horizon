@@ -1,0 +1,25 @@
+name: Send Daily Digest
+
+on:
+  schedule:
+    # 每天北京时间早上 8 点运行 (对应 UTC 时间 0 点)
+    - cron: '0 0 * * *'
+  workflow_dispatch: # 允许你在网页上随时手动点击按钮测试发送
+
+jobs:
+  send-mail:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run send mail script
+        env:
+          MAIL_PASS: ${{ secrets.MAIL_PASS }}   # 这里会自动读取你在 GitHub 网页上保存的授权码
+        run: |
+          python send_mail.py
